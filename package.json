@@ -5,6 +5,7 @@
   "description": "Create Visualize Charts directly from Dato",
   "scripts": {
     "dev": "vite --port 3333",
+    "build": "vite build",
     "addToProject": "yo datocms-plugin:add-to-project",
     "test": "echo 1"
   },
