@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:3000";
 
 const Plugin = ({ plugin }: { plugin: any }) => {
   const [id, setId] = useState(plugin.getFieldValue(plugin.fieldPath));
+  const [locale, setLocale] = useState(plugin.locale);
   useEffect(() => {
     return plugin.addFieldChangeListener(
       plugin.fieldPath,
@@ -12,6 +13,12 @@ const Plugin = ({ plugin }: { plugin: any }) => {
         setId(newValue);
       }
     );
+  }, [plugin]);
+
+  useEffect(() => {
+    return plugin.addChangeListener("locale", (newValue: string) => {
+      setLocale(newValue);
+    });
   }, [plugin]);
 
   useEffect(() => {
@@ -33,7 +40,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
 
   return (
     <>
-      <div>
+      <div style={{ marginBottom: ".375rem" }}>
         <button
           className="DatoCMS-button DatoCMS-button--micro"
           onClick={() => {
@@ -55,25 +62,39 @@ const Plugin = ({ plugin }: { plugin: any }) => {
       </div>
 
       {id && (
-        <iframe
-          src={`${BASE_URL}/de/embed/${id}`}
-          style={{ border: "none" }}
-          name="visualize.admin.ch"
-          scrolling="no"
-          frameBorder="1"
-          marginHeight={0}
-          marginWidth={0}
-          height="400px"
-          width="400px"
-        ></iframe>
+        <>
+          <h5>Chart Preview</h5>
+          <iframe
+            src={`${BASE_URL}/${locale}/embed/${id}`}
+            style={{
+              border: "1px solid #f0f0f0",
+              width: "100%",
+              aspectRatio: "4 / 3",
+            }}
+            name="visualize.admin.ch"
+            scrolling="no"
+            frameBorder="1"
+            marginHeight={0}
+            marginWidth={0}
+          ></iframe>
+          <p>
+            <a
+              href={`${BASE_URL}/v/${id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open chart on visualize.admin.ch
+            </a>
+          </p>
+        </>
       )}
 
-      <IdInput
+      {/* <IdInput
         value={id}
         onChange={(newval) => {
           plugin.setFieldValue(plugin.fieldPath, newval);
         }}
-      />
+      /> */}
     </>
   );
 };
