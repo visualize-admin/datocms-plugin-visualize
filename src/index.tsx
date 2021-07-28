@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 
-const BASE_URL = "http://localhost:3000";
-
 const Plugin = ({ plugin }: { plugin: any }) => {
   const [id, setId] = useState(plugin.getFieldValue(plugin.fieldPath));
   const [locale, setLocale] = useState(plugin.locale);
+
+  const visualizeUrl =
+    plugin.parameters.global.visualizeUrl ?? "http://localhost:3333";
+
   useEffect(() => {
     return plugin.addFieldChangeListener(
       plugin.fieldPath,
@@ -23,7 +25,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
 
   useEffect(() => {
     const listenToMessage = (e: any) => {
-      if (e.origin === BASE_URL) {
+      if (e.origin === visualizeUrl) {
         const matches = (e.data as string).match(/^CHART_ID\:(.+)$/);
         if (matches) {
           const [, chartId] = matches;
@@ -44,7 +46,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
         <button
           className="DatoCMS-button DatoCMS-button--micro"
           onClick={() => {
-            window.open(`${BASE_URL}/create/new`, `_blank`);
+            window.open(`${visualizeUrl}/create/new`, `_blank`);
           }}
         >
           Create new chart
@@ -53,7 +55,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
           <button
             className="DatoCMS-button DatoCMS-button--micro"
             onClick={() => {
-              window.open(`${BASE_URL}/create/new?from=${id}`, `_blank`);
+              window.open(`${visualizeUrl}/create/new?from=${id}`, `_blank`);
             }}
           >
             Edit chart
@@ -65,7 +67,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
         <>
           <h5>Chart Preview</h5>
           <iframe
-            src={`${BASE_URL}/${locale}/embed/${id}`}
+            src={`${visualizeUrl}/${locale}/embed/${id}`}
             style={{
               border: "1px solid #f0f0f0",
               width: "100%",
@@ -79,7 +81,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
           ></iframe>
           <p>
             <a
-              href={`${BASE_URL}/v/${id}`}
+              href={`${visualizeUrl}/v/${id}`}
               target="_blank"
               rel="noopener noreferrer"
             >

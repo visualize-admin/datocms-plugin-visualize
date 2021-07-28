@@ -39,6 +39,13 @@
           "required": true,
           "default": false,
           "hint": "Shows debug messages in console"
+        },
+        {
+          "id": "visualizeUrl",
+          "label": "Visualize URL",
+          "type": "string",
+          "required": "https://dev.visualize.admin.ch",
+          "hint": "URL of the Visualize instance"
         }
       ],
       "instance": []
