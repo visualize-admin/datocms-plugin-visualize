@@ -55,7 +55,7 @@ const Plugin = ({ plugin }: { plugin: any }) => {
           <button
             className="DatoCMS-button DatoCMS-button--micro"
             onClick={() => {
-              window.open(`${visualizeUrl}/create/new?from=${id}`, `_blank`);
+              window.open(`${visualizeUrl}/create/new?copy=${id}`, `_blank`);
             }}
           >
             Edit chart
